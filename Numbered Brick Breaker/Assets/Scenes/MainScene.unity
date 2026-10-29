@@ -597,6 +597,7 @@ GameObject:
   m_Component:
   - component: {fileID: 988201805}
   - component: {fileID: 988201804}
+  - component: {fileID: 988201807}
   - component: {fileID: 988201806}
   m_Layer: 0
   m_Name: Paddle
@@ -725,6 +726,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &988201807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988201803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3274b45578287504395e8a7881a09af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PaddleController
+  moveSpeed: 8
+  minX: -7
+  maxX: 7
 --- !u!1 &1502329722
 GameObject:
   m_ObjectHideFlags: 0
