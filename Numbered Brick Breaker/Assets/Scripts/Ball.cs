@@ -6,6 +6,9 @@ public class Ball : MonoBehaviour
     [Header("Movimiento")]
     [SerializeField] private float launchSpeed = 7f;
 
+    [Header("Rebote en la pala")]
+    [SerializeField] private float bounceAngle = 60f;
+
     private Rigidbody2D rb;
     private bool hasLaunched = false;
 
@@ -40,11 +43,36 @@ public class Ball : MonoBehaviour
         if (!hasLaunched)
             return;
 
-        Vector2 velocity = rb.linearVelocity;
+        // Comprobar si la pelota ha golpeado la pala.
+        PaddleController paddle = collision.collider.GetComponent<PaddleController>();
 
-        if (velocity.sqrMagnitude > 0f)
+        if (paddle != null)
         {
-            rb.linearVelocity = velocity.normalized * launchSpeed;
+            // Calcular dónde ha golpeado la pelota.
+            float paddleWidth = collision.collider.bounds.extents.x;
+            float hitPosition = (transform.position.x - collision.transform.position.x) / paddleWidth;
+
+            hitPosition = Mathf.Clamp(hitPosition, -1f, 1f);
+
+            // Convertir el punto de impacto en un ángulo.
+            float angle = hitPosition * bounceAngle;
+
+            float angleInRadians = angle * Mathf.Deg2Rad;
+
+            Vector2 direction = new Vector2(
+                Mathf.Sin(angleInRadians),
+                Mathf.Cos(angleInRadians)
+            );
+
+            rb.linearVelocity = direction * launchSpeed;
+        }
+        else
+        {
+            // Mantener la velocidad al rebotar contra paredes y bloques.
+            if (rb.linearVelocity.sqrMagnitude > 0f)
+            {
+                rb.linearVelocity = rb.linearVelocity.normalized * launchSpeed;
+            }
         }
     }
 }
