@@ -1,10 +1,19 @@
 
 using UnityEngine;
+using TMPro;
 
 public class Brick : MonoBehaviour
 {
     [Header("Resistencia del bloque")]
     [SerializeField] private int health = 3;
+
+    [Header("Texto de resistencia")]
+    [SerializeField] private TextMeshPro healthText;
+
+    private void Start()
+    {
+        UpdateHealthText();
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -26,6 +35,18 @@ public class Brick : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            UpdateHealthText();
+        }
+    }
+
+    private void UpdateHealthText()
+    {
+        if (healthText != null)
+        {
+            healthText.text = health.ToString();
         }
     }
 }
