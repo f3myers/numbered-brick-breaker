@@ -7,11 +7,14 @@ public class Brick : MonoBehaviour
     [Header("Resistencia del bloque")]
     [SerializeField] private int health = 3;
 
+    private int startingHealth;
+
     [Header("Texto de resistencia")]
     [SerializeField] private TextMeshPro healthText;
 
     private void Start()
     {
+        startingHealth = health;
         UpdateHealthText();
     }
 
@@ -34,6 +37,17 @@ public class Brick : MonoBehaviour
 
         if (health <= 0)
         {
+            // Calcular los puntos según la resistencia inicial.
+            int points = startingHealth * 10;
+
+            // Buscar el administrador del juego.
+            GameManager gameManager = FindFirstObjectByType<GameManager>();
+
+            if (gameManager != null)
+            {
+                gameManager.AddScore(points);
+            }
+
             Destroy(gameObject);
         }
         else
